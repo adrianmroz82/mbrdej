@@ -20,6 +20,11 @@ export default function AdminContentManagementPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  // const [content, setContent] = useState({
+  //   title: "",
+  //   description: "",
+  //   imageUrl: "",
+  // });
   const [previewOpen, setPreviewOpen] = useState(false);
 
   useEffect(() => {
@@ -86,7 +91,6 @@ export default function AdminContentManagementPage() {
         className="border p-2 w-full mb-2"
       />
       <Input type="file" onChange={handleUploadImage} />
-      {/* <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} className="mb-2" /> */}
       {imageUrl && (
         <Image src={imageUrl} alt="Preview" className="my-4 h-60 object-cover mb-2" width={200} height={200} />
       )}
@@ -100,7 +104,7 @@ export default function AdminContentManagementPage() {
         </Button>
       </div>
 
-      {/* Preview Modal */}
+      {/* TODO - Preview Modal - to be extracted */}
       {previewOpen && (
         <Dialog>
           <DialogTrigger asChild>
@@ -112,11 +116,7 @@ export default function AdminContentManagementPage() {
               <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
             </DialogHeader>
 
-            {/* <GallerySection /> */}
             <Content title={title} description={description} imageUrl={imageUrl} />
-            {/* <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter> */}
           </DialogContent>
         </Dialog>
       )}
