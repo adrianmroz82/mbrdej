@@ -19,3 +19,5 @@ admin /add-product
 DX:
 [] supabase models
 [] supabase script
+[] fix db imports
+[] product schema null values - name, desc, imgs should be required
