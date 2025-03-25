@@ -20,6 +20,7 @@ export default function AdminContentManagementPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(true);
   // const [content, setContent] = useState({
   //   title: "",
   //   description: "",
@@ -30,12 +31,13 @@ export default function AdminContentManagementPage() {
   useEffect(() => {
     async function fetchInitialContent() {
       const supabase = await createClient();
-      const { data } = await supabase.from("content").select("*").eq("id", 1).single();
+      const { data: content } = await supabase.from("content").select("*").eq("id", 1).single();
 
-      if (data) {
-        setTitle(data.title);
-        setDescription(data.description);
-        setImageUrl(data.image_url);
+      if (content) {
+        setTitle(content.title!);
+        setDescription(content.description!);
+        setImageUrl(content.image_url!);
+        setLoading(false);
       }
     }
 
@@ -72,6 +74,10 @@ export default function AdminContentManagementPage() {
     });
 
     alert("Content updated!");
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
