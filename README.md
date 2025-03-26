@@ -13,11 +13,11 @@ admin:
 admin /add-product
 [] snackbars on success/failed upload
 [] image preview after upload
-[] form validation
-[] form cleanup
+[+] form validation
+[+] form cleanup
 
 DX:
-[] supabase models
-[] supabase script
+[+] supabase models
+[+] supabase script
 [] fix db imports
 [] product schema null values - name, desc, imgs should be required
