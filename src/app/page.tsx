@@ -1,37 +1,50 @@
-import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 
 import "@/styles/globals.css";
+import { LayoutGrid } from "@/components/layout-grid";
+import { Button } from "@/components/shadcn-ui/button";
+import { ArrowRightIcon } from "lucide-react";
 
 export default async function Home() {
   const supabase = await createClient();
   const { data: products } = await supabase.from("products").select();
 
-  return (
-    <div className="p-6 font-geist grid justify-center items-center">
-      <main className="flex flex-col gap-8 grid-row">
-        <h1 className="text-3xl font-bold underline">Galeria</h1>
+  // if (!products) {
+  //   return <div>Loading...</div>;
+  // }
 
-        <ol className="pl-0 m-0 text-sm leading-6 tracking-tight list-inside">
-          {products?.map((product, index) => (
-            <div key={index} className="mb-4">
-              <h2 className="text-xl font-semibold">{product.name}</h2>
-              <p className="text-gray-700">{product.description}</p>
-              <div className="flex gap-4 mt-2">
-                {product?.images?.map((img, imgIndex) => (
-                  <Image
-                    key={imgIndex}
-                    src={img}
-                    alt={product.name}
-                    width={200}
-                    height={200}
-                    className="rounded-lg shadow-md"
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-        </ol>
+  const cards = products?.map((product) => ({
+    id: product.id,
+    thumbnail: product.images?.length && product.images[0],
+    orientation: product.orientation,
+    content: (
+      <div className="flex flex-col justify-between h-full">
+        <div className="overflow-hidden">
+          <p className="font-bold md:text-4xl text-xl text-black">{product.name}</p>
+          <div className="flex justify-between mt-auto">
+            <p className="font-normal md:text-lg text-md my-4 max-w-lg text-black">{product.description}1</p>
+            <Button
+              icon={ArrowRightIcon}
+              effect="expandIcon"
+              iconPlacement="right"
+              className="w-2/5 p-[30px] text-lg rounded-[30px] font-helvetica">
+              See more1
+            </Button>
+          </div>
+        </div>
+      </div>
+    ),
+  }));
+
+  // if (!cards) {
+  //   return <div>No images to display</div>;
+  // }
+
+  return (
+    <div>
+      <main>
+        <h1 className="text-3xl font-bold underline">Galeria</h1>
+        <div className="h-screen py-20 w-full">{cards && <LayoutGrid cards={cards} />}</div>
       </main>
     </div>
   );
