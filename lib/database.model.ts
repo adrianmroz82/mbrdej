@@ -42,6 +42,7 @@ export type Database = {
           isActive: boolean | null
           isSold: boolean | null
           name: string | null
+          orientation: string | null
           price: string | null
         }
         Insert: {
@@ -52,6 +53,7 @@ export type Database = {
           isActive?: boolean | null
           isSold?: boolean | null
           name?: string | null
+          orientation?: string | null
           price?: string | null
         }
         Update: {
@@ -62,6 +64,7 @@ export type Database = {
           isActive?: boolean | null
           isSold?: boolean | null
           name?: string | null
+          orientation?: string | null
           price?: string | null
         }
         Relationships: []
