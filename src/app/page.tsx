@@ -9,11 +9,11 @@ export default async function Home() {
   const supabase = await createClient();
   const { data: products } = await supabase.from("products").select();
 
-  // if (!products) {
-  //   return <div>Loading...</div>;
-  // }
+  if (!products) {
+    return <div>Loading...</div>;
+  }
 
-  const cards = products?.map((product) => ({
+  const cards = products.map((product) => ({
     id: product.id,
     thumbnail: product.images?.length && product.images[0],
     orientation: product.orientation,
@@ -28,17 +28,13 @@ export default async function Home() {
               effect="expandIcon"
               iconPlacement="right"
               className="w-2/5 p-[30px] text-lg rounded-[30px] font-helvetica">
-              See more1
+              Zobacz wiecej
             </Button>
           </div>
         </div>
       </div>
     ),
   }));
-
-  // if (!cards) {
-  //   return <div>No images to display</div>;
-  // }
 
   return (
     <div>

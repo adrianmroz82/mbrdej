@@ -3,7 +3,7 @@
 import { Button } from "@/components/shadcn-ui/button";
 import { Input } from "@/components/shadcn-ui/input";
 import { createClient } from "@/utils/supabase/client";
-import { ChangeEvent } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import { z } from "zod";
@@ -13,10 +13,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 const formSchema = z.object({
   name: z.string().nonempty("Name is required"),
   description: z.string().nonempty("Description is required"),
-  images: z.array(z.string()).nonempty("At least one image is required"),
+  images: z.any().refine((files) => files && files.length > 0, "At least one image is required"),
 });
 
 export default function AddProductPage() {
+  const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,43 +27,53 @@ export default function AddProductPage() {
     },
   });
 
-  const handleUploadImage = async (
-    e: ChangeEvent<HTMLInputElement>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    field: any
-    // field: ControllerRenderProps<z.infer<typeof formSchema>>
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const supabase = await createClient();
-    const filePath = `products/${v4()}-${file.name}`;
-    const { error } = await supabase.storage.from("images").upload(filePath, file);
-
-    if (error) {
-      console.error("Error uploading image:", error.message);
-      return;
-    }
-
-    const { data: publicUrlData } = supabase.storage.from("images").getPublicUrl(filePath);
-    const imageUrl = publicUrlData?.publicUrl;
-
-    if (imageUrl) {
-      console.log("Image uploaded successfully:", imageUrl);
-      field.onChange([...form.getValues("images"), imageUrl]);
-    }
-  };
-
   const handleAddProduct = async (data: z.infer<typeof formSchema>) => {
     const supabase = await createClient();
-    const { error } = await supabase.from("products").insert([data]);
+    const uploadedImageUrls: string[] = [];
+
+    // Upload each image in the form state to Supabase
+    for (const file of data.images) {
+      console.log("Uploading image:", file.name);
+
+      const filePath = `products/${v4()}-${file.name}`;
+      const { error } = await supabase.storage.from("images").upload(filePath, file);
+
+      if (error) {
+        console.error("Error uploading image:", error.message);
+        return;
+      }
+
+      const { data: publicUrlData } = supabase.storage.from("images").getPublicUrl(filePath);
+      if (publicUrlData?.publicUrl) {
+        uploadedImageUrls.push(publicUrlData.publicUrl);
+      }
+    }
+
+    // Insert product with uploaded image URLs
+    const { error } = await supabase.from("products").insert([
+      {
+        name: data.name,
+        description: data.description,
+        images: uploadedImageUrls,
+      },
+    ]);
 
     if (error) {
       console.error("Error adding product:", error.message);
       return;
     }
 
-    console.log("Product added successfully!", data);
+    console.log("Product added successfully!");
+
+    form.reset({
+      name: "",
+      description: "",
+      images: [],
+    });
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
   return (
@@ -106,7 +117,16 @@ export default function AddProductPage() {
               <FormItem>
                 <FormLabel>Upload Image</FormLabel>
                 <FormControl>
-                  <Input type="file" onChange={(e) => handleUploadImage(e, field)} accept="image/*" />
+                  <Input
+                    type="file"
+                    multiple
+                    ref={inputRef}
+                    onChange={(e) => {
+                      const files = e.target.files ? Array.from(e.target.files) : [];
+                      field.onChange(files); // Store the files in the form state
+                    }}
+                    accept="image/*"
+                  />
                 </FormControl>
                 {/* <FormDescription>Upload an image for the product</FormDescription> */}
                 <FormMessage />
@@ -114,7 +134,7 @@ export default function AddProductPage() {
             )}
           />
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Add Product</Button>
         </form>
       </Form>
     </div>
