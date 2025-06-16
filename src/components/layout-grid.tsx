@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, type ReactNode, type JSX } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { AnimatePresence,motion } from "framer-motion";
 import { Grid2X2, Grid3X3 } from "lucide-react";
+import Image from "next/image";
+import { type JSX,type ReactNode, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 type Card = {
   id: number;

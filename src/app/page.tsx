@@ -1,9 +1,10 @@
-import { createClient } from "@/utils/supabase/server";
-
 import "@/styles/globals.css";
+
+import { ArrowRightIcon } from "lucide-react";
+
 import { LayoutGrid } from "@/components/layout-grid";
 import { Button } from "@/components/shadcn-ui/button";
-import { ArrowRightIcon } from "lucide-react";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
   const supabase = await createClient();

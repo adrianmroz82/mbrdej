@@ -1,14 +1,15 @@
 "use client";
 
-import { Button } from "@/components/shadcn-ui/button";
-import { Input } from "@/components/shadcn-ui/input";
-import { createClient } from "@/utils/supabase/client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Button } from "@/components/shadcn-ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn-ui/form";
+import { Input } from "@/components/shadcn-ui/input";
+import { createClient } from "@/utils/supabase/client";
 
 const formSchema = z.object({
   name: z.string().nonempty("Name is required"),

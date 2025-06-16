@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@/components/shadcn-ui/button";
-import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
+
+import { Button } from "@/components/shadcn-ui/button";
+import { createClient } from "@/utils/supabase/client";
 
 export default function AdminProductsPage() {
   const [data, setData] = useState([] as any[]);
@@ -36,10 +37,11 @@ export default function AdminProductsPage() {
     <div>
       <h1>Products</h1>
       <ol>
-        {data?.map((product, index) => (
+        {data?.map((product) => (
           <div key={product.id}>
             <h1>{product.name}</h1>
             <h1>{product.description}</h1>
+            {/* @ts-ignore */}
             {product?.images?.map((img, index) => (
               <Fragment key={index}>
                 <Image key={index} src={img} alt={product.name || "placeholder"} width="200" height="200" />
