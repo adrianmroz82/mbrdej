@@ -8,11 +8,9 @@ interface Props {
   imageUrl: ContentProps["image_url"];
 }
 
-const myFont = localFont({ src: "../../styles//karlst-regular.ttf" });
-
 export default function Content({ title, description, imageUrl }: Props) {
   return (
-    <main className={`${myFont.className}   `}>
+    <main>
       <div className="flex flex-col min-h-screen">
         <main className="flex-1">
           <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
