@@ -1,9 +1,7 @@
 import "@/styles/globals.css";
 
-import { ArrowRightIcon } from "lucide-react";
-
 import { LayoutGrid } from "@/components/layout-grid";
-import { Button } from "@/components/shadcn-ui/button";
+import { RedirectButton } from "@/components/ui/see-more-button";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
@@ -24,13 +22,7 @@ export default async function Home() {
           <p className="font-bold md:text-4xl text-xl text-black">{product.name}</p>
           <div className="flex justify-between mt-auto">
             <p className="font-normal md:text-lg text-md my-4 max-w-lg text-black">{product.description}1</p>
-            <Button
-              icon={ArrowRightIcon}
-              effect="expandIcon"
-              iconPlacement="right"
-              className="w-2/5 p-[30px] text-lg rounded-[30px] font-helvetica">
-              Zobacz wiecej
-            </Button>
+            <RedirectButton text="Zobacz wiecej" href={`/obrazy/${product.id}`} />
           </div>
         </div>
       </div>
