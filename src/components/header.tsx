@@ -1,6 +1,7 @@
 // TODO: apply rwd
 
 import { PrefetchLink } from "@/components/prefetch-link";
+import { LogoIcon } from "@/components/ui/logo-icon";
 import { config } from "@/page.config";
 
 export function Header() {
@@ -11,8 +12,8 @@ export function Header() {
       <nav>
         <div className="flex items-center justify-between p-6 px-36">
           <div className="text-lg font-semibold">
-            <PrefetchLink href="/" className="hover:underline">
-              Logo
+            <PrefetchLink href="/">
+              <LogoIcon />
             </PrefetchLink>
           </div>
 

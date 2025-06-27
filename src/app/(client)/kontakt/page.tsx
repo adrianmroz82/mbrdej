@@ -2,10 +2,10 @@
 
 import ContactForm from "@/components/ui/contact-form";
 
-function HeaderSection({ title, description }: { title: string; description: string }) {
+export function HeaderSection({ title, description }: { title: string; description: string }) {
   return (
     <div className="text-center mb-8 bg-slate-200 w-full py-8 px-4">
-      <p className="text-4xl font-bold mb-4 text-gray-800">{title}</p>
+      <p className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{title}</p>
       <p className="text-xl italic text-gray-600 max-w-2xl mx-auto">{description}</p>
     </div>
   );
@@ -20,7 +20,7 @@ export default async function KontaktPage() {
     <>
       <HeaderSection title={title} description={description} />
 
-      <div className="my-6 px-4 max-w-4xl mx-auto">
+      <div className="mt-6 px-4 max-w-4xl mx-auto">
         <h2 className="font-bold mb-2">Jak kupować</h2>
         <p>
           Jeśli jesteś zainteresowany zakupem danego obrazu lub masz pytania wystarczy, że się ze mną skontaktujesz.

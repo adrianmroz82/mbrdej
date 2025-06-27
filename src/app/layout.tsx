@@ -24,7 +24,7 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body className={`${archivo.className}`}>
         <Header />
-        <main className="flex flex-col items-center justify-between px-24 pt-12">{children}</main>
+        <main className="flex flex-col items-center justify-between mt-4">{children}</main>
       </body>
     </html>
   );
