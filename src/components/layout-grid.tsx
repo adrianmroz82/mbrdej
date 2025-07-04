@@ -1,18 +1,18 @@
 "use client";
 
-import { AnimatePresence,motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Grid2X2, Grid3X3 } from "lucide-react";
 import Image from "next/image";
-import { type JSX,type ReactNode, useState } from "react";
+import { type JSX, type ReactNode, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
 type Card = {
   id: number;
   content: JSX.Element | ReactNode | string;
-  className?: string;
   thumbnail: string;
   orientation?: "landscape" | "portrait";
+  className?: string;
 };
 
 export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
@@ -49,32 +49,22 @@ export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
           color="black"
         />
       )}
-      <div className="w-full h-full p-8 flex flex-wrap max-w-8xl mx-auto gap-4 relative">
+      <div className="w-full h-full py-8 flex flex-wrap mx-auto relative">
         {cards.map((card) => (
           <motion.div
             key={card.id}
-            // className={cn(card.className, "w-auto h-full min-h-[500px] cursor-pointer overflow-hidden relative")}
             className={cn(
               card.className,
-              `w-auto ${!isGalerySizeSmaller && "h-full"} cursor-pointer overflow-hidden relative ${
-                isGalerySizeSmaller ? "min-h-[350px]" : "min-h-[500px]"
-              }`
+              ` w-full md:w-1/2 2xl:w-1/3 ${isGalerySizeSmaller ? "aspect-[4/3]" : "aspect-[3/2]"} cursor-pointer relative overflow-hidden min-h-[300px] xl:min-h-[450px] 2xl:min-h-[500px] h-full`
             )}
             onClick={() => handleClick(card)}
-            // whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.15 }}
-            style={{
-              flex: "1 1 auto",
-              minWidth: "200px",
-              maxWidth: isGalerySizeSmaller ? "calc(20% - 1rem)" : "calc(33.33% - 1rem)",
-            }} // Ensures responsiveness
-          >
+            transition={{ duration: 0.15 }}>
             <Image
               width={800}
               height={800}
               src={card.thumbnail}
               loading="lazy"
-              className="object-cover h-full w-full"
+              className="object-cover w-full h-full"
               alt="thumbnail"
             />
           </motion.div>
@@ -103,6 +93,7 @@ export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
                   height={800}
                   src={selected.thumbnail}
                   loading="lazy"
+                  // objectFit="cover"
                   className="object-contain h-full w-full max-h-[80vh] max-w-[80vw]"
                   alt="expanded-thumbnail"
                 />
