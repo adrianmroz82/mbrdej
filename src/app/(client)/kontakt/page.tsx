@@ -1,12 +1,15 @@
-// https://supabase.com/docs/guides/functions/examples/send-emails
-
 import ContactForm from "@/components/ui/contact-form";
 
-export function HeaderSection({ title, description }: { title: string; description: string }) {
+interface Props {
+  title: string;
+  description?: string;
+}
+
+export function HeaderSection({ title, description }: Props) {
   return (
     <div className="text-center mb-8 bg-slate-200 w-full py-8 px-4">
-      <p className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{title}</p>
-      <p className="text-xl italic text-gray-600 max-w-2xl mx-auto">{description}</p>
+      <p className="text-3xl md:text-4xl font-bold text-gray-800">{title}</p>
+      {description && <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">{description}</p>}
     </div>
   );
 }

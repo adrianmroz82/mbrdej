@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -16,8 +17,10 @@ const formSchema = z.object({
   message: z.string().min(1, "Wiadomość jest wymagana"),
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 export default function ContactForm() {
-  const form = useForm({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -26,9 +29,44 @@ export default function ContactForm() {
     },
   });
 
-  const onSubmit = (values) => {
-    console.log("Form Submitted:", values);
-    form.reset();
+  const [status, setStatus] = useState<string | null>(null);
+  const [isSending, setIsSending] = useState(false);
+
+  const onSubmit = async (values: FormValues) => {
+    setIsSending(true);
+    setStatus(null);
+
+    try {
+      const payload = {
+        name: values.name,
+        email: values.email,
+        message: values.message,
+        subject: `Wiadomość od ${values.name}`,
+      };
+
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      // TODO: move to translations/page config
+
+      if (result.success) {
+        setStatus("Wiadomość została wysłana pomyślnie!");
+        form.reset();
+      } else {
+        console.error(result.error);
+        setStatus("Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie.");
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus("Nie udało się nawiązać połączenia z serwerem.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -77,9 +115,10 @@ export default function ContactForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                Twoja wiadomość
+              <Button type="submit" className="w-full" disabled={isSending}>
+                {isSending ? "Wysyłanie..." : "Wyślij wiadomość"}
               </Button>
+              {status && <p className="text-center mt-2">{status}</p>}
             </form>
           </Form>
         </CardContent>
