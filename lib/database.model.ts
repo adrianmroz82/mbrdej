@@ -15,6 +15,7 @@ export type Database = {
           description: string | null
           id: number
           image_url: string | null
+          page: string | null
           title: string | null
         }
         Insert: {
@@ -22,6 +23,7 @@ export type Database = {
           description?: string | null
           id?: number
           image_url?: string | null
+          page?: string | null
           title?: string | null
         }
         Update: {
@@ -29,6 +31,7 @@ export type Database = {
           description?: string | null
           id?: number
           image_url?: string | null
+          page?: string | null
           title?: string | null
         }
         Relationships: []
@@ -62,37 +65,40 @@ export type Database = {
       }
       products: {
         Row: {
+          available: boolean | null
           created_at: string
           description: string | null
+          height: number | null
           id: number
           images: string[] | null
-          isActive: boolean | null
-          isSold: boolean | null
           name: string | null
-          orientation: string | null
           price: string | null
+          technique: string | null
+          width: number | null
         }
         Insert: {
+          available?: boolean | null
           created_at?: string
           description?: string | null
+          height?: number | null
           id?: number
           images?: string[] | null
-          isActive?: boolean | null
-          isSold?: boolean | null
           name?: string | null
-          orientation?: string | null
           price?: string | null
+          technique?: string | null
+          width?: number | null
         }
         Update: {
+          available?: boolean | null
           created_at?: string
           description?: string | null
+          height?: number | null
           id?: number
           images?: string[] | null
-          isActive?: boolean | null
-          isSold?: boolean | null
           name?: string | null
-          orientation?: string | null
           price?: string | null
+          technique?: string | null
+          width?: number | null
         }
         Relationships: []
       }
