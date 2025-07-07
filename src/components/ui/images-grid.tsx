@@ -21,13 +21,13 @@ export const ImagesGrid = ({ cards }: { cards: Card[] }) => {
 
   return (
     <>
-      <div className="w-full gap-2 h-full py-8 flex flex-wrap mx-auto relative justify-between">
+      <div className="w-full gap-2 h-full py-8 flex flex-wrap mx-auto relative">
         {cards.map((card) => (
           <motion.div
             key={card.id}
             className={cn(
               card.className,
-              `w-full md:w-[calc(50%-0.5rem)] 2xl:w-[calc(33.333%-0.66rem)] cursor-pointer relative overflow-hidden min-h-[300px] lg:min-h-[350px] xl:max-h-[700px] 2xl:max-h-[750px]`
+              `w-full md:w-[calc(50%-0.35rem)] 2xl:w-[calc(33.333%-0.35rem)] cursor-pointer relative overflow-hidden min-h-[300px] lg:min-h-[350px] xl:max-h-[700px] 2xl:max-h-[750px]`
             )}
             onClick={() => handleClick(card)}
             transition={{ duration: 0.15 }}>
