@@ -36,15 +36,15 @@ export default function AddProductPage() {
     for (const file of data.images) {
       console.log("Uploading image:", file.name);
 
-      const filePath = `products/${v4()}-${file.name}`;
-      const { error } = await supabase.storage.from("images").upload(filePath, file);
+      const filePath = `${v4()}-${file.name}`;
+      const { error } = await supabase.storage.from("products").upload(filePath, file);
 
       if (error) {
         console.error("Error uploading image:", error.message);
         return;
       }
 
-      const { data: publicUrlData } = supabase.storage.from("images").getPublicUrl(filePath);
+      const { data: publicUrlData } = supabase.storage.from("products").getPublicUrl(filePath);
       if (publicUrlData?.publicUrl) {
         uploadedImageUrls.push(publicUrlData.publicUrl);
       }
