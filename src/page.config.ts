@@ -5,10 +5,6 @@ export const config = {
       href: "/obrazy",
     },
     {
-      title: "Akwarela",
-      href: "/akwarela",
-    },
-    {
       title: "O Mnie",
       href: "/o-mnie",
     },
@@ -45,9 +41,9 @@ export const config = {
   ],
   email: {
     from: "Od",
-    recipent: "Formularz MBrdej"
+    recipent: "Formularz MBrdej",
     // TODO: add rest of email content stored in a component
-  }
+  },
 };
 
 export type PageConfig = typeof config;

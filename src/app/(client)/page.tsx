@@ -17,18 +17,18 @@ export default async function HomePage() {
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <p className="text-4xl font-bold mb-4 text-gray-800">{homePage.title}</p>
+          <h1 className="text-4xl font-bold mb-4 text-gray-800">{homePage.title}</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">{homePage.description}</p>
         </div>
 
         {allImages.length > 0 && (
-          <div className="mb-12">
+          <div className="mb-12 pt-4">
             <ImageCarousel images={allImages} interval={4000} />
           </div>
         )}
 
-        <div className="text-center bg-white p-8 rounded-lg shadow-md">
-          <p className="text-3xl font-bold mb-4 text-gray-800">{homePage.footerTitle}</p>
+        <div className="max-w-3xl mx-auto  text-center  rounded-lg">
+          <h2 className="text-3xl font-bold mb-4 text-gray-800">{homePage.footerTitle}</h2>
           <p className="text-xl text-gray-600">{homePage.footerDescription}</p>
         </div>
       </main>

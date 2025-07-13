@@ -1,20 +1,9 @@
+// TODO: extract content
+
 import ContactForm from "@/components/ui/contact-form";
+import { HeaderSection } from "@/components/ui/header-section";
 
-interface Props {
-  title: string;
-  description?: string;
-}
-
-export function HeaderSection({ title, description }: Props) {
-  return (
-    <div className="text-center mb-8 bg-slate-200 w-full py-8 px-4">
-      <p className="text-3xl md:text-4xl font-bold text-gray-800">{title}</p>
-      {description && <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">{description}</p>}
-    </div>
-  );
-}
-
-export default async function KontaktPage() {
+export default async function ContactPage() {
   const title = "Kontakt";
   const description =
     "Jesteś zainteresowany kupnem, obrazem na zamówienie lub chcesz o coś zapytać? Zapraszam do kontaktu.";
