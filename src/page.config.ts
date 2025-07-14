@@ -13,6 +13,12 @@ export const config = {
       href: "/kontakt",
     },
   ],
+  mobileNavigation: [
+    {
+      title: "Strona Główna",
+      href: "/",
+    },
+  ],
   // TODO: move to content table
   homePage: {
     title: "OBRAZY OLEJNE, AKWARELA, PLAKATY",

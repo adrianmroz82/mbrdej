@@ -41,7 +41,7 @@ export function Images({ products }: Props) {
   }));
 
   return (
-    <div className="py-20 px-12 w-full">
+    <div className="py-4 lg:py-12 px-12 w-full">
       <div className="flex justify-center mb-10">
         <h1 className="text-4xl font-bold">Obrazy</h1>
       </div>

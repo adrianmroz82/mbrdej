@@ -2,13 +2,16 @@ import { Menu, X } from "lucide-react";
 
 import { PrefetchLink } from "@/components/prefetch-link";
 import { Drawer, DrawerClose, DrawerContent, DrawerTitle, DrawerTrigger } from "@/components/shadcn-ui/drawer";
-import { PageConfig } from "@/page.config";
+import { config, PageConfig } from "@/page.config";
 
 interface Props {
   items: PageConfig["navigation"];
 }
 
 export function MobileMenu({ items }: Props) {
+  const { mobileNavigation } = config;
+  const mobileItems = [...mobileNavigation, ...items];
+
   return (
     <Drawer direction="left">
       <DrawerTrigger>
@@ -20,7 +23,7 @@ export function MobileMenu({ items }: Props) {
         </DrawerClose>
         <div className="mx-auto w-full py-5 mt-6">
           <div className="mb-2 flex flex-col gap-4 py-2 text-center pb-2">
-            {items.map(({ title, href }) => (
+            {mobileItems.map(({ title, href }) => (
               <PrefetchLink key={href} href={href}>
                 <DrawerClose>
                   <DrawerTitle className="text-2xl hover:underline">{title}</DrawerTitle>
