@@ -15,7 +15,7 @@ const mapTechniqueToLabel: Record<string, string> = {
   oil: "Olej",
 };
 
-const mapAvailabilityToLabel: Record<string, string> = {
+const _mapAvailabilityToLabel: Record<string, string> = {
   Available: "Dostępne",
   Sold: "Sprzedane",
 };

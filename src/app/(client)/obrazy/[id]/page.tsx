@@ -5,7 +5,7 @@ import { config } from "@/page.config";
 import { createClient } from "@/utils/supabase/server";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ImageDetailsPage({ params }: Props) {

@@ -1,19 +1,8 @@
-import localFont from "next/font/local";
 import Image from "next/image";
 
-import { Content as ContentProps } from "@/app/(client)/content/page";
-
-interface Props {
-  title: ContentProps["title"];
-  description: ContentProps["description"];
-  imageUrl: ContentProps["image_url"];
-}
-
-const myFont = localFont({ src: "../../styles//karlst-regular.ttf" });
-
-export default function Content({ title, description, imageUrl }: Props) {
+export default function Content({ title, description, imageUrl }: any) {
   return (
-    <main className={`${myFont.className}   `}>
+    <main>
       <div className="flex flex-col min-h-screen">
         <main className="flex-1">
           <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
