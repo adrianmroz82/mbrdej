@@ -1,6 +1,7 @@
-import { Content as ContentProps } from "@/app/(client)/content/page";
-import Image from "next/image";
 import localFont from "next/font/local";
+import Image from "next/image";
+
+import { Content as ContentProps } from "@/app/(client)/content/page";
 
 interface Props {
   title: ContentProps["title"];

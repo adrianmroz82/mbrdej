@@ -1,5 +1,9 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { v4 } from "uuid";
+
 import { Button } from "@/components/shadcn-ui/button";
 import {
   Dialog,
@@ -12,9 +16,6 @@ import {
 import { Input } from "@/components/shadcn-ui/input";
 import Content from "@/components/ui/content";
 import { createClient } from "@/utils/supabase/client";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { v4 } from "uuid";
 
 export default function AdminContentManagementPage() {
   const [title, setTitle] = useState("");
@@ -119,7 +120,7 @@ export default function AdminContentManagementPage() {
           <DialogContent className="min-w-full h-full">
             <DialogHeader>
               <DialogTitle>Preview</DialogTitle>
-              <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+              <DialogDescription>Make changes to your profile here. Click save when you are done.</DialogDescription>
             </DialogHeader>
 
             <Content title={title} description={description} imageUrl={imageUrl} />

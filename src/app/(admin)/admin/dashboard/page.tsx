@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
 import { Button } from "@/components/shadcn-ui/button";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function DashboardPage() {
   const supabase = await createClient();

@@ -1,14 +1,15 @@
 "use client";
 
-import { Button } from "@/components/shadcn-ui/button";
-import { Input } from "@/components/shadcn-ui/input";
-import { createClient } from "@/utils/supabase/client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Button } from "@/components/shadcn-ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn-ui/form";
+import { Input } from "@/components/shadcn-ui/input";
+import { createClient } from "@/utils/supabase/client";
 
 const formSchema = z.object({
   name: z.string().nonempty("Name is required"),
@@ -35,15 +36,15 @@ export default function AddProductPage() {
     for (const file of data.images) {
       console.log("Uploading image:", file.name);
 
-      const filePath = `products/${v4()}-${file.name}`;
-      const { error } = await supabase.storage.from("images").upload(filePath, file);
+      const filePath = `${v4()}-${file.name}`;
+      const { error } = await supabase.storage.from("products").upload(filePath, file);
 
       if (error) {
         console.error("Error uploading image:", error.message);
         return;
       }
 
-      const { data: publicUrlData } = supabase.storage.from("images").getPublicUrl(filePath);
+      const { data: publicUrlData } = supabase.storage.from("products").getPublicUrl(filePath);
       if (publicUrlData?.publicUrl) {
         uploadedImageUrls.push(publicUrlData.publicUrl);
       }

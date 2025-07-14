@@ -2,9 +2,8 @@ import "@/styles/globals.css";
 
 import { ReactNode } from "react";
 
-import { SidebarProvider } from "@/components/shadcn-ui/sidebar";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
-
+import { SidebarProvider } from "@/components/shadcn-ui/sidebar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 
 interface Props {
