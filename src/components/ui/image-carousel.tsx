@@ -32,7 +32,7 @@ export function ImageCarousel({ images, interval = 3000 }: ImageCarouselProps) {
   }
 
   return (
-    <div className="relative max-w-6xl w-full mx-auto h-80 md:h-96 lg:h-[32rem] overflow-hidden rounded-md bg-gray-100 shadow-lg">
+    <div className="relative max-w-5xl w-full mx-auto h-80 md:h-96 lg:h-[32rem] overflow-hidden rounded-md bg-gray-100 shadow-lg">
       <div
         className={`absolute inset-0 transition-opacity duration-600 ease-in-out ${
           isVisible ? "opacity-100" : "opacity-0"
@@ -43,6 +43,7 @@ export function ImageCarousel({ images, interval = 3000 }: ImageCarouselProps) {
           fill
           className="object-cover"
           priority={currentIndex === 0}
+          sizes="(max-width: 1024px) 100vw, 500px"
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />

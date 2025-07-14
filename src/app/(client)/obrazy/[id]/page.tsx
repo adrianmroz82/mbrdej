@@ -24,6 +24,7 @@ export default async function ImageDetailsPage({ params }: Props) {
               alt={`Product Image ${+1}`}
               fill
               className="w-full rounded-lg bg-neutral-100 object-cover object-center"
+              sizes="(min-width: 1024px) 66.66vw, (min-width: 768px) 50vw, 100vw"
             />
           </div>
           <div className="flex flex-col mt-8 md:mt-0 md:ml-16">

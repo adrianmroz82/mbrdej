@@ -38,6 +38,7 @@ export const ImagesGrid = ({ cards }: { cards: Card[] }) => {
               loading="lazy"
               className="object-cover w-full h-full"
               alt="thumbnail"
+              sizes="(min-width: 1536px) 33.33vw, (min-width: 768px) 50vw, 100vw"
             />
           </motion.div>
         ))}
