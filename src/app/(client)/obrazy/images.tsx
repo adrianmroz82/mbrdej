@@ -2,34 +2,24 @@
 
 import { useMemo, useState } from "react";
 
-import { Button } from "@/components/shadcn-ui/button";
+import { GalleryFilters } from "@/components/ui/gallery-filters/gallery-filers";
 import { ImagesGrid } from "@/components/ui/images-grid";
-import { RedirectButton } from "@/components/ui/see-more-button";
+import { RedirectButton } from "@/components/ui/redirect-button";
 
 interface Props {
   products: Product[];
 }
 
-const mapTechniqueToLabel: Record<string, string> = {
-  watercolor: "Akwarela",
-  oil: "Olej",
-};
-
-const _mapAvailabilityToLabel: Record<string, string> = {
-  Available: "Dostępne",
-  Sold: "Sprzedane",
-};
-
 export function Images({ products }: Props) {
-  const [filter, setFilter] = useState({ technique: "All", availability: "All" });
+  const [filter, setFilter] = useState({ technique: "all", availability: "all" });
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      const matchesType = filter.technique === "All" || product.technique === filter.technique;
+      const matchesType = filter.technique === "all" || product.technique === filter.technique;
       const matchesAvailability =
-        filter.availability === "All" ||
-        (filter.availability === "Available" && product.available) ||
-        (filter.availability === "Sold" && !product.available);
+        filter.availability === "all" ||
+        (filter.availability === "available" && product.available) ||
+        (filter.availability === "sold" && !product.available);
       return matchesType && matchesAvailability;
     });
   }, [products, filter]);
@@ -55,33 +45,7 @@ export function Images({ products }: Props) {
       <div className="flex justify-center mb-10">
         <h1 className="text-4xl font-bold">Obrazy</h1>
       </div>
-
-      <div className="flex justify-between mb-6">
-        <div className="flex gap-4">
-          {["All", "watercolor", "oil"].map((technique) => (
-            <Button
-              key={technique}
-              size="lg"
-              variant={filter.technique === technique ? "default" : "outline"}
-              onClick={() => setFilter((f) => ({ ...f, technique }))}>
-              {mapTechniqueToLabel[technique] || technique}
-            </Button>
-          ))}
-        </div>
-
-        <div className="flex gap-4">
-          {["All", "Available", "Sold"].map((status) => (
-            <Button
-              key={status}
-              size="lg"
-              variant={filter.availability === status ? "default" : "outline"}
-              onClick={() => setFilter((f) => ({ ...f, availability: status }))}>
-              {status}
-            </Button>
-          ))}
-        </div>
-      </div>
-
+      <GalleryFilters filter={filter} setFilter={setFilter} />
       <ImagesGrid cards={cards} />
     </div>
   );
