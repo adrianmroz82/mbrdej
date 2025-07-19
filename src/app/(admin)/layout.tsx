@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 
 import { ReactNode } from "react";
 
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { SidebarProvider } from "@/components/shadcn-ui/sidebar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 
