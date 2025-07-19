@@ -41,60 +41,57 @@ export type Database = {
       "content-contact": {
         Row: {
           created_at: string
-          description: string | null
-          header_desc: string | null
-          header_title: string | null
+          description: string
+          header_desc: string
+          header_title: string
           id: number
-          image_url: string | null
-          title: string | null
+          title: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
-          header_desc?: string | null
-          header_title?: string | null
+          description: string
+          header_desc: string
+          header_title: string
           id?: number
-          image_url?: string | null
-          title?: string | null
+          title: string
         }
         Update: {
           created_at?: string
-          description?: string | null
-          header_desc?: string | null
-          header_title?: string | null
+          description?: string
+          header_desc?: string
+          header_title?: string
           id?: number
-          image_url?: string | null
-          title?: string | null
+          title?: string
         }
         Relationships: []
       }
       "content-landing-page": {
         Row: {
           created_at: string
-          desc_bottom: string | null
-          description: string | null
+          desc_bottom: string
+          description: string
           id: number
-          image_url: string[] | null
-          title: string | null
-          title_bottom: string | null
+          image_url: string[]
+          title: string
+          title_bottom: string
         }
         Insert: {
           created_at?: string
-          desc_bottom?: string | null
-          description?: string | null
+          desc_bottom: string
+          description: string
           id?: number
-          image_url?: string[] | null
-          title?: string | null
-          title_bottom?: string | null
+          image_url: string[]
+          title: string
+          title_bottom: string
         }
         Update: {
           created_at?: string
-          desc_bottom?: string | null
-          description?: string | null
+          desc_bottom?: string
+          description?: string
           id?: number
-          image_url?: string[] | null
-          title?: string | null
-          title_bottom?: string | null
+          image_url?: string[]
+          title?: string
+          title_bottom?: string
         }
         Relationships: []
       }
