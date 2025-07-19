@@ -17,24 +17,24 @@ export type Database = {
       "content-about-me": {
         Row: {
           created_at: string
-          description: string | null
+          description: string
           id: number
-          image_url: string | null
-          title: string | null
+          image_url: string
+          title: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
+          description: string
           id?: number
-          image_url?: string | null
-          title?: string | null
+          image_url: string
+          title: string
         }
         Update: {
           created_at?: string
-          description?: string | null
+          description?: string
           id?: number
-          image_url?: string | null
-          title?: string | null
+          image_url?: string
+          title?: string
         }
         Relationships: []
       }
