@@ -1,8 +1,6 @@
-"use client";
-
-import { Database, PlusCircle, Text } from "lucide-react";
 import Link from "next/link";
 
+import { navigation } from "@/components/admin/admin-sidebar/constant";
 import {
   Sidebar,
   SidebarContent,
@@ -17,37 +15,6 @@ import {
   SidebarMenuSubItem,
 } from "@/components/shadcn-ui/sidebar";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
-
-const navigation = [
-  {
-    title: "Zarzadzaj produktami",
-    url: "/admin/products",
-    icon: Database,
-  },
-  {
-    title: "Dodaj nowy produkt",
-    url: "/admin/add-product",
-    icon: PlusCircle,
-  },
-  {
-    title: "Zarzadzaj trescia",
-    icon: Text,
-    subItems: [
-      {
-        title: "Strona Główna",
-        url: "/admin/content/landing-page",
-      },
-      {
-        title: "O mnie",
-        url: "/admin/content/about-me",
-      },
-      {
-        title: "Kontakt",
-        url: "/admin/content/contact",
-      },
-    ],
-  },
-];
 
 export function AdminSidebar() {
   return (
