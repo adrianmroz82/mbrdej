@@ -38,10 +38,6 @@ const navigation = [
         url: "/admin/content/landing-page",
       },
       {
-        title: "Obrazy",
-        url: "/admin/content/images",
-      },
-      {
         title: "O mnie",
         url: "/admin/content/about-me",
       },
@@ -61,10 +57,10 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navigation.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="font-bold">
                   {item.subItems ? (
                     <>
-                      <SidebarMenuButton>
+                      <SidebarMenuButton className="py-6">
                         <item.icon />
                         <span>{item.title}</span>
                       </SidebarMenuButton>
@@ -73,7 +69,9 @@ export function AdminSidebar() {
                         <SidebarMenuSub>
                           {item.subItems.map((sub) => (
                             <SidebarMenuSubItem key={sub.title} className="flex items-center gap-2">
-                              <SidebarMenuSubButton href={sub.url}>{sub.title}</SidebarMenuSubButton>
+                              <SidebarMenuSubButton className="py-4" href={sub.url}>
+                                {sub.title}
+                              </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                           ))}
                         </SidebarMenuSub>

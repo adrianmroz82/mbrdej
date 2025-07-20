@@ -1,11 +1,12 @@
 import { ImageCarousel } from "@/components/ui/image-carousel";
+import { parseImageUrls } from "@/lib/utils";
 import { PAGE_NAME } from "@/utils/content/content.model";
 import { getPageContent } from "@/utils/content/map-content";
 
 export default async function LandingPage() {
   const content = await getPageContent(PAGE_NAME.LANDING);
   const { title, description, image_urls, title_bottom, description_bottom } = content;
-  const imageArray = JSON.parse(image_urls) as string[];
+  const imageArray = parseImageUrls(image_urls);
 
   return (
     <div className="min-h-screen bg-gray-50">
