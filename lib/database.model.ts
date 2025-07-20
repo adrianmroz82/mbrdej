@@ -95,6 +95,30 @@ export type Database = {
         }
         Relationships: []
       }
+      "page-content": {
+        Row: {
+          created_at: string
+          id: number
+          key: string
+          page_name: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          key?: string
+          page_name?: string
+          value?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          key?: string
+          page_name?: string
+          value?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           available: boolean | null

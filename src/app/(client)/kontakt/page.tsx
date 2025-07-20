@@ -1,18 +1,15 @@
-// TODO: extract content
-
-import ContactForm from "@/components/ui/contact-form";
+import { ContactForm } from "@/components/ui/contact-form";
 import { HeaderSection } from "@/components/ui/header-section";
-import { createClient } from "@/utils/supabase/server";
+import { PAGE_NAME } from "@/utils/content/content.model";
+import { getPageContent } from "@/utils/content/map-content";
 
 export default async function ContactPage() {
-  const supabase = await createClient();
-  const { data } = await supabase.from("content-contact").select().single();
-
-  const { title, description, header_desc, header_title } = data!;
+  const content = await getPageContent(PAGE_NAME.CONTACT);
+  const { title, description, header_title, header_description } = content;
 
   return (
     <>
-      <HeaderSection title={header_title} description={header_desc} />
+      <HeaderSection title={header_title} description={header_description} />
 
       <div className="mt-6 px-4 max-w-4xl mx-auto">
         <h2 className="font-bold mb-2">Jak kupować</h2>

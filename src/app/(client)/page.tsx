@@ -1,11 +1,11 @@
 import { ImageCarousel } from "@/components/ui/image-carousel";
-import { createClient } from "@/utils/supabase/server";
+import { PAGE_NAME } from "@/utils/content/content.model";
+import { getPageContent } from "@/utils/content/map-content";
 
 export default async function LandingPage() {
-  const supabase = await createClient();
-  const { data } = await supabase.from("content-landing-page").select().single();
-
-  const { title, description, title_bottom, desc_bottom, image_url } = data!;
+  const content = await getPageContent(PAGE_NAME.LANDING);
+  const { title, description, image_urls, title_bottom, description_bottom } = content;
+  const imageArray = JSON.parse(image_urls) as string[];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -15,15 +15,15 @@ export default async function LandingPage() {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">{description}</p>
         </div>
 
-        {image_url!.length > 0 && (
+        {imageArray.length > 0 && (
           <div className="mb-12 pt-4">
-            <ImageCarousel images={image_url} interval={4000} />
+            <ImageCarousel images={imageArray} interval={4000} />
           </div>
         )}
 
         <div className="max-w-3xl mx-auto  text-center  rounded-lg">
           <h2 className="text-3xl font-bold mb-4 text-gray-800">{title_bottom}</h2>
-          <p className="text-xl text-gray-600">{desc_bottom}</p>
+          <p className="text-xl text-gray-600">{description_bottom}</p>
         </div>
       </main>
     </div>

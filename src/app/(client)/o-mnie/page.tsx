@@ -1,13 +1,12 @@
 import Image from "next/image";
 
 import { HeaderSection } from "@/components/ui/header-section";
-import { createClient } from "@/utils/supabase/server";
+import { PAGE_NAME } from "@/utils/content/content.model";
+import { getPageContent } from "@/utils/content/map-content";
 
 export default async function AboutPage() {
-  const supabase = await createClient();
-  const { data } = await supabase.from("content-about-me").select().single();
-
-  const { title, description, image_url } = data!;
+  const content = await getPageContent(PAGE_NAME.ABOUT);
+  const { title, description, image_url } = content;
 
   return (
     <>
