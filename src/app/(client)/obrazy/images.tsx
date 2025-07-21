@@ -33,7 +33,7 @@ export function Images({ products }: Props) {
           <p className="font-bold md:text-4xl text-xl text-black">{product.name}</p>
           <div className="flex justify-between mt-auto">
             <p className="font-normal md:text-lg text-md my-4 max-w-lg text-black">{product.description}</p>
-            <RedirectButton text="Zobacz więcej" href={`/obrazy/${product.id}`} />
+            <RedirectButton text="Więcej" href={`/obrazy/${product.id}`} />
           </div>
         </div>
       </div>
