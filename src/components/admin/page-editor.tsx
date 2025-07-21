@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -22,13 +23,19 @@ interface PageEditorProps<T extends PageKey> {
 
 function createSchemaForFields<T extends PageKey>(fields: (keyof PageContentMap[T])[]) {
   const shape: Record<string, any> = {};
+
   fields.forEach((field) => {
-    if (field.toString().includes("image")) {
-      shape[field.toString()] = z.string().url("Must be a valid URL").optional();
+    const fieldName = field.toString();
+    if (fieldName.includes("image")) {
+      shape[fieldName] =
+        fieldName === "image_urls"
+          ? z.array(z.string().url("Must be a valid URL")).optional()
+          : z.string().url("Must be a valid URL").optional();
     } else {
-      shape[field.toString()] = z.string().nonempty(`Pole '${field.toString()}' nie może być puste`);
+      shape[fieldName] = z.string().nonempty(`Pole '${fieldName}' nie może być puste`);
     }
   });
+
   return z.object(shape);
 }
 
@@ -52,7 +59,23 @@ export function AdminContentPageEditor<T extends PageKey>({ pageName, fields }: 
         return;
       }
 
-      const contentMap = Object.fromEntries(data.map((row) => [row.key, row.value])) as Partial<z.infer<typeof schema>>;
+      const contentMap = Object.fromEntries(
+        data.map((row) => {
+          const parsedValue =
+            row.key === "image_urls" && pageName === "landing_page"
+              ? (() => {
+                  try {
+                    return JSON.parse(row.value);
+                  } catch {
+                    return [row.value];
+                  }
+                })()
+              : row.value;
+
+          return [row.key, parsedValue];
+        })
+      ) as Partial<z.infer<typeof schema>>;
+
       form.reset(contentMap);
     }
 
@@ -60,25 +83,31 @@ export function AdminContentPageEditor<T extends PageKey>({ pageName, fields }: 
   }, [form, pageName, supabase]);
 
   const handleUploadImage = async (key: keyof PageContentMap[T], e: ChangeEvent<HTMLInputElement>) => {
-    console.log("handleUploadImage called for key:", key, "Event:", e);
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    const file = e.target.files?.[0];
-    console.log("Uploading image for key:", key, "File:", file);
+    const urls: string[] = [];
 
-    if (!file) return;
+    for (const file of Array.from(files)) {
+      const filePath = `content-images/${v4()}-${file.name}`;
+      const { error } = await supabase.storage.from("content-images").upload(filePath, file);
+      if (error) {
+        console.error(error.message);
+        continue;
+      }
 
-    const filePath = `content-images/${v4()}-${file.name}`;
-    const { error } = await supabase.storage.from("content-images").upload(filePath, file);
-    if (error) {
-      console.error(error.message);
-      return;
+      const { data: publicUrlData } = supabase.storage.from("content-images").getPublicUrl(filePath);
+      if (publicUrlData?.publicUrl) {
+        urls.push(publicUrlData.publicUrl);
+      }
     }
 
-    const { data: publicUrlData } = supabase.storage.from("content-images").getPublicUrl(filePath);
-    if (publicUrlData?.publicUrl) {
-      form.setValue(key.toString() as keyof (typeof schema)["_input"], publicUrlData.publicUrl, {
-        shouldValidate: true,
-      });
+    if (pageName === "landing_page") {
+      const existing = form.getValues(key.toString()) ?? [];
+      const updated = Array.isArray(existing) ? [...existing, ...urls] : urls;
+      form.setValue(key.toString() as any, updated, { shouldValidate: true });
+    } else {
+      form.setValue(key.toString() as any, urls[0] ?? "", { shouldValidate: true });
     }
   };
 
@@ -137,16 +166,26 @@ export function AdminContentPageEditor<T extends PageKey>({ pageName, fields }: 
                         )}
 
                         {pageName === "landing_page" && Array.isArray(formField.value) && (
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-4">
                             {formField.value.map((url, index) => (
-                              <Image
-                                key={index}
-                                src={url ?? ""}
-                                alt={`Preview ${index + 1}`}
-                                width={200}
-                                height={200}
-                                className="my-2 object-cover h-60"
-                              />
+                              <div key={index} className="relative group">
+                                <Image
+                                  src={url}
+                                  alt={`Preview ${index + 1}`}
+                                  width={200}
+                                  height={200}
+                                  className="object-cover h-60 rounded-md"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = formField.value.filter((_: string, i: number) => i !== index);
+                                    form.setValue(fieldName as any, updated, { shouldValidate: true });
+                                  }}
+                                  className="absolute top-1 right-1 bg-white p-1 rounded-full shadow hover:bg-red-100 transition-opacity opacity-80 hover:opacity-100">
+                                  <Trash2 className="w-5 h-5 text-red-500" />
+                                </button>
+                              </div>
                             ))}
                           </div>
                         )}

@@ -78,66 +78,66 @@ export default function AddProductPage() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleAddProduct)} className="flex flex-col gap-6 w-full max-w-md">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input {...field} type="text" placeholder="name" />
-                </FormControl>
-                {/* <FormDescription>This is name of a product</FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <>
+      <h2 className="text-2xl font-bold my-20 text-center">Dodaj nowy produkt</h2>
+      <div className="flex justify-center items-center">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleAddProduct)} className="flex flex-col gap-6 w-full max-w-md">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="text" placeholder="name" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Input {...field} type="text" placeholder="Enter product description" />
-                </FormControl>
-                {/* <FormDescription>This is the description of the product</FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="text" placeholder="Enter product description" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload Image</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    multiple
-                    ref={inputRef}
-                    onChange={(e) => {
-                      const files = e.target.files ? Array.from(e.target.files) : [];
-                      field.onChange(files); // Store the files in the form state
-                    }}
-                    accept="image/*"
-                  />
-                </FormControl>
-                {/* <FormDescription>Upload an image for the product</FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="images"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Upload Image</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      multiple
+                      ref={inputRef}
+                      onChange={(e) => {
+                        const files = e.target.files ? Array.from(e.target.files) : [];
+                        field.onChange(files);
+                      }}
+                      accept="image/*"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button type="submit">Add Product</Button>
-        </form>
-      </Form>
-    </div>
+            <Button type="submit">Add Product</Button>
+          </form>
+        </Form>
+      </div>
+    </>
   );
 }
