@@ -1,23 +1,26 @@
-TODO:
+# 🎨MBrdej Portfolio
 
-client:
-[] landing page (routes, sidebar navigation, rwd, faq section)
-[] gallery - pagination/lazy loading, skeleton loaders
-[] contact route, form
-[] footer (+social medias)
+A personal portfolio website for showcasing artwork, built using **Next.js** and **Supabase**.
 
-admin:
-[] offers handling
-[] content management
+## ✨ Features
 
-admin /add-product
-[] snackbars on success/failed upload
-[] image preview after upload
-[+] form validation
-[+] form cleanup
+- 🖼️ Image gallery for paintings
+- ✍️ Editable content via admin panel (Supabase-based CMS)
+- 📱 Responsive and fast design
+- ☁️ Supabase Storage for image hosting
+- 🔐 Secure admin access
 
-DX:
-[+] supabase models
-[+] supabase script
-[] fix db imports
-[] product schema null values - name, desc, imgs should be required
+## 🔧 Tech Stack
+
+- [Next.js](https://nextjs.org/) – React framework for SSR and static sites
+- [Supabase](https://supabase.com/) – Backend-as-a-Service (database, storage, auth)
+- [ShadcnUI](https://ui.shadcn.com/) – Reusable, accessible UI components
+- [TypeScript](https://www.typescriptlang.org/) – Type-safe development
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/yourusername/painter-portfolio.git
+cd painter-portfolio
