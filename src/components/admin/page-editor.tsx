@@ -1,18 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trash2 } from "lucide-react";
-import Image from "next/image";
 import { ChangeEvent, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 } from "uuid";
 import { z } from "zod";
 
 import { Button } from "@/components/shadcn-ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn-ui/form";
-import { Input } from "@/components/shadcn-ui/input";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn-ui/form";
 import { PageContentMap } from "@/utils/content/content.model";
 import { createClient } from "@/utils/supabase/client";
+
+import { renderFieldInput } from "./render-field-input";
 
 type PageKey = keyof PageContentMap;
 
@@ -21,18 +20,19 @@ interface PageEditorProps<T extends PageKey> {
   fields: (keyof PageContentMap[T])[];
 }
 
-function createSchemaForFields<T extends PageKey>(fields: (keyof PageContentMap[T])[]) {
+function createSchemaForFields<T extends PageKey>(fields: (keyof PageContentMap[T])[], pageName: PageKey) {
   const shape: Record<string, any> = {};
 
   fields.forEach((field) => {
-    const fieldName = field.toString();
-    if (fieldName.includes("image")) {
-      shape[fieldName] =
-        fieldName === "image_urls"
-          ? z.array(z.string().url("Must be a valid URL")).optional()
-          : z.string().url("Must be a valid URL").optional();
+    const name = field.toString();
+
+    if (name.includes("image")) {
+      shape[name] =
+        name === "image_urls" && pageName === "landing_page"
+          ? z.array(z.string().url()).optional()
+          : z.string().url().optional();
     } else {
-      shape[fieldName] = z.string().nonempty(`Pole '${fieldName}' nie może być puste`);
+      shape[name] = z.string().nonempty(`Field '${name}' cannot be empty`);
     }
   });
 
@@ -41,7 +41,7 @@ function createSchemaForFields<T extends PageKey>(fields: (keyof PageContentMap[
 
 export function AdminContentPageEditor<T extends PageKey>({ pageName, fields }: PageEditorProps<T>) {
   const supabase = createClient();
-  const schema = createSchemaForFields(fields);
+  const schema = createSchemaForFields(fields, pageName);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -59,21 +59,20 @@ export function AdminContentPageEditor<T extends PageKey>({ pageName, fields }: 
         return;
       }
 
-      const contentMap = Object.fromEntries(
-        data.map((row) => {
-          const parsedValue =
-            row.key === "image_urls" && pageName === "landing_page"
-              ? (() => {
-                  try {
-                    return JSON.parse(row.value);
-                  } catch {
-                    return [row.value];
-                  }
-                })()
-              : row.value;
+      function parseValue(key: string, value: string, pageName: string): string | string[] {
+        if (key === "image_urls" && pageName === "landing_page") {
+          try {
+            const parsed = JSON.parse(value);
+            return Array.isArray(parsed) ? parsed : [parsed];
+          } catch {
+            return [value];
+          }
+        }
+        return value;
+      }
 
-          return [row.key, parsedValue];
-        })
+      const contentMap = Object.fromEntries(
+        data.map(({ key, value }) => [key, parseValue(key, value, pageName)])
       ) as Partial<z.infer<typeof schema>>;
 
       form.reset(contentMap);
@@ -144,66 +143,15 @@ export function AdminContentPageEditor<T extends PageKey>({ pageName, fields }: 
                 render={({ field: formField }) => (
                   <FormItem>
                     <FormLabel>{fieldName}</FormLabel>
-
-                    {isImage && (
-                      <>
-                        <FormControl>
-                          <Input
-                            type="file"
-                            onChange={(e) => handleUploadImage(field, e)}
-                            accept="image/*"
-                            multiple={pageName === "landing_page"}
-                          />
-                        </FormControl>
-                        {formField.value && typeof formField.value === "string" && pageName !== "landing_page" && (
-                          <Image
-                            src={formField.value ?? ""}
-                            alt="Preview"
-                            width={200}
-                            height={200}
-                            className="my-2 object-cover h-60"
-                          />
-                        )}
-
-                        {pageName === "landing_page" && Array.isArray(formField.value) && (
-                          <div className="flex flex-wrap gap-4">
-                            {formField.value.map((url, index) => (
-                              <div key={index} className="relative group">
-                                <Image
-                                  src={url}
-                                  alt={`Preview ${index + 1}`}
-                                  width={200}
-                                  height={200}
-                                  className="object-cover h-60 rounded-md"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const updated = formField.value.filter((_: string, i: number) => i !== index);
-                                    form.setValue(fieldName as any, updated, { shouldValidate: true });
-                                  }}
-                                  className="absolute top-1 right-1 bg-white p-1 rounded-full shadow hover:bg-red-100 transition-opacity opacity-80 hover:opacity-100">
-                                  <Trash2 className="w-5 h-5 text-red-500" />
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </>
-                    )}
-
-                    {!isImage && isTextarea && (
-                      <FormControl>
-                        <textarea {...formField} className="border p-2 w-full resize-y" rows={4} />
-                      </FormControl>
-                    )}
-
-                    {!isImage && !isTextarea && (
-                      <FormControl>
-                        <Input {...formField} type="text" />
-                      </FormControl>
-                    )}
-
+                    {renderFieldInput({
+                      fieldName,
+                      isImage,
+                      isTextarea,
+                      pageName,
+                      field: formField,
+                      form,
+                      handleUploadImage,
+                    })}
                     <FormMessage />
                   </FormItem>
                 )}

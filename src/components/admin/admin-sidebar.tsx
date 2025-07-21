@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { navigation } from "@/components/admin/admin-sidebar/constant";
+import { navigation } from "@/components/admin/navigation.constant";
 import {
   Sidebar,
   SidebarContent,
